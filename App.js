@@ -6,6 +6,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AdminScreen from "./src/screens/main/adminScreen";
 import HomeScreen from "./src/screens/main/homeScreen";
+import TicketDetails from "./src/screens/main/ticketDetails";
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,7 @@ export default function App() {
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Admin" component={AdminScreen} />
+            <Stack.Screen name="TicketDetails" component={TicketDetails} />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>

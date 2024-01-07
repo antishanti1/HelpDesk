@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Header() {
@@ -15,16 +8,21 @@ export default function Header() {
   const goToAdminPage = () => {
     navigation.navigate("Admin");
   };
+
   const goToHomePage = () => {
     navigation.navigate("Home");
+  };
+
+  const goBack = () => {
+    navigation.goBack();
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity onPress={goToHomePage}>
-        <Image style={styles.img} source={require("../../assets/logo.png")} />
+        <Text style={styles.title}>Back</Text>
       </TouchableOpacity>
-      <Text style={styles.title}>Welcome to Zaealthy Ticket System</Text>
+      <Text style={styles.title}>Ticket System</Text>
       <TouchableOpacity onPress={goToAdminPage}>
         <Text style={styles.admin}>Admin</Text>
       </TouchableOpacity>

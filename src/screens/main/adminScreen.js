@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "../../../firebaseConfig";
 import Header from "../../components/header";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Image, View, Text, Pressable } from "react-native";
 
 export default function AdminScreen() {
   const [tickets, setTickets] = useState([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -25,83 +27,81 @@ export default function AdminScreen() {
     fetchTickets();
   }, []);
 
+  const handleViewDetails = (ticket) => {
+    navigation.navigate("TicketDetails", { ticket });
+  };
+
   return (
-    <div style={styles.page}>
+    <View>
       <Header />
-      <ul style={styles.ticketContainer}>
+      <Text style={styles.detailsTitle}>Tickets</Text>
+      <View style={styles.ticketContainer}>
         {tickets.map((ticket) => (
-          <li style={styles.ticket} key={ticket.id}>
-            <p style={styles.name}>
-              Ticket ID: {ticket.id}
-              <br />
-              Name: {ticket.name}
-              <br />
-              Email: {ticket.email}
-              <br />
-              Description: {ticket.description}
-              <br />
-              Status: {ticket.status}
-              <br />
-              <button
-                style={styles.button}
-                onClick={() => handleRespond(ticket)}
-              >
-                Respond
-              </button>
-              <button
-                style={styles.button}
-                onClick={() => handleUpdateStatus(ticket, "in progress")}
-              >
-                Update Status to In Progress
-              </button>
-              <button
-                style={styles.button}
-                onClick={() => handleUpdateStatus(ticket, "resolved")}
-              >
-                Update Status to Resolved
-              </button>
-            </p>
-          </li>
+          <View style={styles.ticket} key={ticket.id}>
+            <Text style={styles.name}>{ticket.name}</Text>
+            <Text style={styles.status}>{ticket.status}</Text>
+            <Pressable
+              style={styles.button}
+              onPress={() => handleViewDetails(ticket)}
+            >
+              <Text style={styles.buttonText}>View Details</Text>
+            </Pressable>
+          </View>
         ))}
-      </ul>
-    </div>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  page: {
-    backgroundColor: "#fff",
-    alignItems: "center",
-    paddingTop: 10,
-    paddingBottom: 10,
-    justifyContent: "space-around",
-    flexDirection: "row",
-  },
   ticketContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    flex: 1,
     justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
+    height: "100%",
   },
   ticket: {
     backgroundColor: "#d3d3d3",
     borderColor: "#d5d5d5",
     borderWidth: 1,
     borderRadius: 5,
-    padding: "1rem",
-    margin: "1rem",
+    padding: 16,
+    marginBottom: 10,
+    width: "80%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  detailsTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+    marginTop: 10,
+    textAlign: "center",
   },
   name: {
     fontSize: 18,
-    fontWeight: "semibold",
-    padding: "1rem",
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  status: {
+    fontSize: 16,
+    backgroundColor: "#D7DCFB",
+    padding: "0.5rem",
+    marginBottom: "1rem",
+    marginTop: "1rem",
+    borderRadius: 5,
+    alignItems: "center",
   },
   button: {
-    backgroundColor: "#d3d3d3",
-    borderColor: "#d5d5d5",
-    borderWidth: 1,
+    backgroundColor: "#00030A",
+    padding: 10,
+    marginTop: 10,
     borderRadius: 5,
-    padding: "0.5rem",
-    margin: "0.5rem",
+    alignItems: "center",
+    width: "20%",
+  },
+  buttonText: {
+    color: "#fff",
   },
 });
