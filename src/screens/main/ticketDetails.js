@@ -7,10 +7,14 @@ import {
   StyleSheet,
   Image,
   Pressable,
+  Dimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { doc, updateDoc } from "firebase/firestore";
-import { firestore } from "../../../firebaseConfig";
+import { auth, firestore } from "../../../firebaseConfig";
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 const TicketDetailsScreen = ({ route }) => {
   const { ticket } = route.params;
@@ -20,12 +24,20 @@ const TicketDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
 
   const handleUpdateStatus = async () => {
-    if (ticket) {
-      const ticketDocRef = doc(firestore, "tickets", ticket.id);
-      await updateDoc(ticketDocRef, { status });
-      setResponse("");
-      setStatus("");
-      navigation.goBack();
+    try {
+      setUpdatingStatus(true);
+
+      if (ticket) {
+        const ticketDocRef = doc(firestore, "tickets", ticket.id);
+        await updateDoc(ticketDocRef, { status: "Resolved" });
+        setResponse("");
+        setStatus("Resolved");
+        navigation.goBack();
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+    } finally {
+      setUpdatingStatus(false);
     }
   };
 
@@ -75,11 +87,12 @@ const styles = StyleSheet.create({
     borderColor: "#d5d5d5",
     borderWidth: 1,
     borderRadius: 5,
-    padding: 16,
-    margin: 16,
+    padding: "5%",
+    marginBottom: "5%",
     justifyContent: "center",
     alignItems: "center",
     width: "80%",
+    height: "auto",
   },
   detailsTitle: {
     fontSize: 20,
@@ -87,26 +100,26 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   detailsImage: {
-    width: 200,
-    height: 200,
-    marginBottom: 10,
+    width: "100%",
+    height: "50%",
+    marginVertical: windowHeight * 0.02,
   },
   responseInput: {
-    padding: "0.5rem",
+    padding: "2%",
+    width: "80%",
     borderRadius: 5,
-    marginBottom: "1rem",
     marginTop: "0.5rem",
     backgroundColor: "#fff",
   },
   button: {
     backgroundColor: "#00030A",
-    padding: 10,
-    marginTop: 10,
+    padding: windowHeight * 0.01,
+    width: "50%",
     borderRadius: 5,
     alignItems: "center",
-    marginBottom: 10,
+    marginTop: "5%",
   },
-  text: {
+  buttonText: {
     color: "#fff",
   },
 });

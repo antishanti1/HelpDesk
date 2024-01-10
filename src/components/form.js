@@ -6,10 +6,14 @@ import {
   TextInput,
   Pressable,
   StyleSheet,
+  Dimensions,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { addDoc, collection } from "firebase/firestore";
 import { firestore, firebase } from "../../firebaseConfig";
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 export default function TicketSubmissionForm() {
   const [name, setName] = useState("");
@@ -24,7 +28,7 @@ export default function TicketSubmissionForm() {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0.2,
     });
 
     console.log(result);
@@ -97,11 +101,28 @@ export default function TicketSubmissionForm() {
     }
   };
 
+  const resetForm = () => {
+    setName("");
+    setEmail("");
+    setImage(null);
+    setDescription("");
+    setTicketSubmitted(false);
+  };
+
   if (ticketSubmitted) {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Thank You!</Text>
         <Text>Your ticket was submitted successfully.</Text>
+        <Pressable
+          style={styles.thankButton}
+          onPress={() => {
+            setTicketSubmitted(false);
+            resetForm();
+          }}
+        >
+          <Text style={styles.buttonText}>Submit Another Ticket</Text>
+        </Pressable>
       </View>
     );
   }
@@ -141,13 +162,15 @@ export default function TicketSubmissionForm() {
           {image && (
             <Image source={{ uri: image }} style={{ width: 80, height: 120 }} />
           )}
-          <Pressable style={styles.imgButton} onPress={pickImage}>
-            <Text>Upload Image</Text>
-          </Pressable>
+          <View style={styles.buttonContainer}>
+            <Pressable style={styles.imgButton} onPress={pickImage}>
+              <Text>Upload Image</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={submitTicket}>
+              <Text style={styles.buttonText}>Submit Ticket</Text>
+            </Pressable>
+          </View>
         </View>
-        <Pressable style={styles.button} onPress={submitTicket}>
-          <Text style={styles.buttonText}>Submit Ticket</Text>
-        </Pressable>
       </View>
     </View>
   );
@@ -155,28 +178,29 @@ export default function TicketSubmissionForm() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
-    width: "100%",
-    height: "100%",
     justifyContent: "center",
+    paddingHorizontal: windowWidth * 0.02,
     alignItems: "center",
-    alignContent: "center",
   },
   title: {
     fontWeight: "bold",
-    fontSize: "1.5rem",
-    marginBottom: "1rem",
+    fontSize: windowHeight * 0.03,
+    marginTop: windowHeight * 0.05,
   },
   formContainer: {
-    marginTop: "1rem",
+    width: windowWidth * 0.7,
+    paddingHorizontal: windowWidth * 0.02,
+    paddingVertical: windowHeight * 0.02,
+    marginTop: windowHeight * 0.05,
+    height: "auto",
     backgroundColor: "#d3d3d3",
+    borderRadius: 5,
     padding: "2rem",
   },
   input: {
-    padding: "0.5rem",
+    marginVertical: "2%",
+    padding: "2%",
     borderRadius: 5,
-    marginBottom: "1rem",
-    marginTop: "0.5rem",
     backgroundColor: "#fff",
   },
   imgContainer: {
@@ -185,18 +209,31 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignContent: "center",
   },
+  buttonContainer: {
+    alignItems: "center",
+    width: "100%",
+    gap: windowHeight * 0.02,
+    marginTop: windowHeight * 0.02,
+  },
   imgButton: {
     backgroundColor: "#D7DCFB",
-    padding: "0.5rem",
-    marginBottom: "1rem",
+    padding: windowHeight * 0.01,
+    width: "50%",
     borderRadius: 5,
     alignItems: "center",
-    marginTop: "0.5rem",
   },
   button: {
     backgroundColor: "#00030A",
-    padding: "0.5rem",
-    marginBottom: "1rem",
+    padding: windowHeight * 0.01,
+    width: "50%",
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  thankButton: {
+    marginTop: windowHeight * 0.02,
+    backgroundColor: "#00030A",
+    padding: windowHeight * 0.01,
+    width: "50%",
     borderRadius: 5,
     alignItems: "center",
   },

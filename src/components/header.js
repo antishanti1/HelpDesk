@@ -1,6 +1,15 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 export default function Header() {
   const navigation = useNavigation();
@@ -34,8 +43,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
     alignItems: "center",
-    paddingTop: 10,
     paddingBottom: 10,
+    paddingTop: 10,
     justifyContent: "space-around",
     flexDirection: "row",
   },
