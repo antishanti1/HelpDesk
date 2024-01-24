@@ -5,8 +5,12 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
+  View,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -28,25 +32,41 @@ export default function Header() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity onPress={goToHomePage}>
-        <Text style={styles.title}>Back</Text>
-      </TouchableOpacity>
-      <Text style={styles.title}>Ticket System</Text>
-      <TouchableOpacity onPress={goToAdminPage}>
-        <Text style={styles.admin}>Admin</Text>
-      </TouchableOpacity>
+      <View style={styles.top}>
+        <TouchableOpacity onPress={goToHomePage}>
+          <MaterialIcons name="arrow-back-ios" size={30} color="black" />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={goToHomePage}>
+          <AntDesign name="customerservice" size={40} color="black" />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={goToAdminPage}>
+          <MaterialCommunityIcons
+            name="account-check-outline"
+            size={40}
+            color="black"
+          />
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: "#5B8577",
     alignItems: "center",
-    paddingBottom: 10,
-    paddingTop: 10,
     justifyContent: "space-around",
     flexDirection: "row",
+  },
+  top: {
+    width: windowWidth * 0.9,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: windowWidth * 0.02,
+    paddingBottom: 15,
   },
   title: {
     fontSize: 20,

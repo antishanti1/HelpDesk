@@ -43,19 +43,39 @@ export default function AdminDashboard() {
   };
 
   return (
-    <View>
-      <Text style={styles.detailsTitle}>Tickets</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Tickets</Text>
       <View style={styles.ticketContainer}>
-        {tickets.map((ticket) => (
-          <View style={styles.ticket} key={ticket.id}>
-            <Text style={styles.name}>{ticket.name}</Text>
-            <Text style={styles.status}>{ticket.status}</Text>
+        <View style={styles.ticket}>
+          <Text style={styles.name}>Alex Johnson</Text>
+          <View style={styles.buttonContainer}>
+            <Pressable style={styles.resStatus}>
+              <Text style={styles.resText}>Resolved</Text>
+            </Pressable>
             <Pressable
               style={styles.button}
               onPress={() => handleViewDetails(ticket)}
             >
               <Text style={styles.buttonText}>View Details</Text>
             </Pressable>
+          </View>
+        </View>
+      </View>
+      <View style={styles.ticketContainer}>
+        {tickets.map((ticket) => (
+          <View style={styles.ticket} key={ticket.id}>
+            <Text style={styles.name}>{ticket.name}</Text>
+            <View style={styles.buttonContainer}>
+              <Pressable style={styles.status}>
+                <Text style={styles.statName}> {ticket.status}</Text>
+              </Pressable>
+              <Pressable
+                style={styles.button}
+                onPress={() => handleViewDetails(ticket)}
+              >
+                <Text style={styles.buttonText}>View Details</Text>
+              </Pressable>
+            </View>
           </View>
         ))}
       </View>
@@ -64,26 +84,32 @@ export default function AdminDashboard() {
 }
 
 const styles = StyleSheet.create({
-  ticketContainer: {
-    justifyContent: "center",
+  container: {
+    paddingTop: windowHeight * 0.03,
     alignItems: "center",
+    backgroundColor: "#fff",
+    borderRadius: 50,
+    height: "100%",
+  },
+  ticketContainer: {
+    paddingTop: windowHeight * 0.02,
+    gap: windowHeight * 0.02,
+    width: "80%",
   },
   ticket: {
-    backgroundColor: "#d3d3d3",
-    borderColor: "#d5d5d5",
-    borderWidth: 1,
-    borderRadius: 5,
+    backgroundColor: "#e7e7e7",
+    borderRadius: 20,
     padding: "5%",
     marginBottom: "5%",
-    width: "80%",
     justifyContent: "center",
     alignItems: "center",
   },
-  detailsTitle: {
-    fontSize: 20,
+  title: {
     fontWeight: "bold",
-    marginVertical: windowHeight * 0.02,
+    fontSize: windowHeight * 0.03,
+    marginBottom: windowHeight * 0.01,
     textAlign: "center",
+    paddingHorizontal: windowWidth * 0.05,
   },
   name: {
     fontSize: 18,
@@ -91,22 +117,43 @@ const styles = StyleSheet.create({
     marginBottom: "5%",
   },
   status: {
-    backgroundColor: "#D7DCFB",
+    backgroundColor: "#C84954",
     padding: windowHeight * 0.01,
-    width: "50%",
-    borderRadius: 5,
+    width: "80%",
+    borderRadius: 15,
     alignItems: "center",
-    textAlign: "center",
-    marginBottom: windowHeight * 0.02,
+  },
+  resStatus: {
+    backgroundColor: "#5B8577",
+    padding: windowHeight * 0.01,
+    width: "80%",
+    borderRadius: 15,
+    alignItems: "center",
+  },
+  resText: {
+    color: "#000",
+    fontWeight: "bold",
+  },
+  statName: {
+    color: "#000",
+    fontWeight: "bold",
+  },
+  buttonContainer: {
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "10%",
+    width: "100%",
+    marginTop: "5%",
   },
   button: {
     backgroundColor: "#00030A",
     padding: windowHeight * 0.01,
-    width: "50%",
-    borderRadius: 5,
+    width: "80%",
+    borderRadius: 15,
     alignItems: "center",
   },
   buttonText: {
     color: "#fff",
+    fontWeight: "bold",
   },
 });

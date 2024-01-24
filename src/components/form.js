@@ -90,7 +90,7 @@ export default function TicketSubmissionForm() {
         name,
         email,
         description,
-        status: "pending",
+        status: "Pending",
         imageUrl: image || null,
       });
 
@@ -129,11 +129,12 @@ export default function TicketSubmissionForm() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Ticket Submission Form</Text>
-      <Text>Fill out the form below to submit a ticket.</Text>
+      <Text style={styles.title}>
+        Fill out the form below to submit a ticket:
+      </Text>
       <View style={styles.formContainer}>
-        <View style={styles.form}>
-          <Text>Name:</Text>
+        <View style={styles.formName}>
+          <Text style={styles.formText}>Name:</Text>
           <TextInput
             style={styles.input}
             value={name}
@@ -141,8 +142,8 @@ export default function TicketSubmissionForm() {
           />
         </View>
 
-        <View style={styles.form}>
-          <Text>Email:</Text>
+        <View style={styles.formName}>
+          <Text style={styles.formText}>Email:</Text>
           <TextInput
             style={styles.input}
             value={email}
@@ -150,10 +151,10 @@ export default function TicketSubmissionForm() {
           />
         </View>
 
-        <View style={styles.form}>
-          <Text>Description:</Text>
+        <View style={styles.formDesc}>
+          <Text style={styles.formText}>Issue:</Text>
           <TextInput
-            style={styles.input}
+            style={styles.descInput}
             value={description}
             onChangeText={(text) => setDescription(text)}
           />
@@ -164,10 +165,10 @@ export default function TicketSubmissionForm() {
           )}
           <View style={styles.buttonContainer}>
             <Pressable style={styles.imgButton} onPress={pickImage}>
-              <Text>Upload Image</Text>
+              <Text style={styles.imgText}>UPLOAD IMAGE</Text>
             </Pressable>
             <Pressable style={styles.button} onPress={submitTicket}>
-              <Text style={styles.buttonText}>Submit Ticket</Text>
+              <Text style={styles.buttonText}>SUBMIT TICKET</Text>
             </Pressable>
           </View>
         </View>
@@ -178,30 +179,59 @@ export default function TicketSubmissionForm() {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
-    paddingHorizontal: windowWidth * 0.02,
+    paddingTop: windowHeight * 0.04,
     alignItems: "center",
+    backgroundColor: "#fff",
+    borderRadius: 50,
+    height: "100%",
   },
   title: {
     fontWeight: "bold",
     fontSize: windowHeight * 0.03,
-    marginTop: windowHeight * 0.05,
+    marginBottom: windowHeight * 0.02,
+    textAlign: "center",
+    paddingHorizontal: windowWidth * 0.05,
   },
   formContainer: {
-    width: windowWidth * 0.7,
-    paddingHorizontal: windowWidth * 0.02,
-    paddingVertical: windowHeight * 0.02,
-    marginTop: windowHeight * 0.05,
-    height: "auto",
-    backgroundColor: "#d3d3d3",
-    borderRadius: 5,
-    padding: "2rem",
+    width: "80%",
+    paddingTop: windowHeight * 0.02,
+    gap: windowHeight * 0.02,
+  },
+  formText: {
+    fontWeight: "semiBold",
+    fontSize: 15,
+  },
+  formName: {
+    backgroundColor: "#E7E7E7",
+    borderRadius: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 40,
+    flexDirection: "row",
+    gap: "7%",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  formDesc: {
+    backgroundColor: "#E7E7E7",
+    borderRadius: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 30,
+    flexDirection: "row",
+    gap: "5%",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   input: {
-    marginVertical: "2%",
-    padding: "2%",
-    borderRadius: 5,
+    width: 210,
+    borderRadius: 10,
     backgroundColor: "#fff",
+    height: windowHeight * 0.04,
+  },
+  descInput: {
+    width: "77%",
+    borderRadius: 12,
+    backgroundColor: "#fff",
+    height: windowHeight * 0.1,
   },
   imgContainer: {
     paddingBottom: "1rem",
@@ -216,17 +246,21 @@ const styles = StyleSheet.create({
     marginTop: windowHeight * 0.02,
   },
   imgButton: {
-    backgroundColor: "#D7DCFB",
-    padding: windowHeight * 0.01,
-    width: "50%",
-    borderRadius: 5,
+    backgroundColor: "#5B8577",
+    padding: windowHeight * 0.017,
+    width: "100%",
+    borderRadius: "50%",
     alignItems: "center",
+  },
+  imgText: {
+    color: "#000",
+    fontWeight: "bold",
   },
   button: {
     backgroundColor: "#00030A",
-    padding: windowHeight * 0.01,
-    width: "50%",
-    borderRadius: 5,
+    padding: windowHeight * 0.017,
+    width: "100%",
+    borderRadius: "50%",
     alignItems: "center",
   },
   thankButton: {
@@ -239,5 +273,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#fff",
+    fontWeight: "bold",
   },
 });
